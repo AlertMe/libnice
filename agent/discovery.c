@@ -494,7 +494,7 @@ void priv_generate_candidate_credentials (NiceAgent *agent,
     candidate->password = g_base64_encode (password, 16);
 
   } else if (agent->compatibility == NICE_COMPATIBILITY_GOOGLE) {
-    gchar username[16];
+    /*gchar username[16];
 
     g_free (candidate->username);
     g_free (candidate->password);
@@ -502,7 +502,7 @@ void priv_generate_candidate_credentials (NiceAgent *agent,
 
     nice_rng_generate_bytes_print (agent->rng, 16, (gchar *)username);
 
-    candidate->username = g_strndup (username, 16);
+    candidate->username = g_strndup (username, 16);*/
   }
 
 
@@ -732,9 +732,9 @@ discovery_add_relay_candidate (
   candidate->addr = *address;
   candidate->turn = turn_server_ref (turn);
 
-  if (agent->compatibility == NICE_COMPATIBILITY_GOOGLE) {
+  /*if (agent->compatibility == NICE_COMPATIBILITY_GOOGLE) {
     candidate->priority = nice_candidate_jingle_priority (candidate);
-  } else if (agent->compatibility == NICE_COMPATIBILITY_MSN ||
+    } else */if (agent->compatibility == NICE_COMPATIBILITY_MSN ||
              agent->compatibility == NICE_COMPATIBILITY_OC2007)  {
     candidate->priority = nice_candidate_msn_priority (candidate);
   } else if (agent->compatibility == NICE_COMPATIBILITY_OC2007R2) {
@@ -759,10 +759,10 @@ discovery_add_relay_candidate (
   priv_generate_candidate_credentials (agent, candidate);
 
   /* Google uses the turn username as the candidate username */
-  if (agent->compatibility == NICE_COMPATIBILITY_GOOGLE) {
+  /*if (agent->compatibility == NICE_COMPATIBILITY_GOOGLE) {
     g_free (candidate->username);
     candidate->username = g_strdup (turn->username);
-  }
+    }*/
 
   priv_assign_foundation (agent, candidate);
 
