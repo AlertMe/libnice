@@ -4,8 +4,6 @@
 *.la
 *.gcda
 *.gcno
-Makefile
-Makefile.in
 .deps
 .libs
 *~
@@ -21,28 +19,15 @@ m4/ltsugar.m4
 m4/ltversion.m4
 m4/lt~obsolete.m4
 
-aclocal.m4
 autom4te.cache
 autoregen.sh
-config.guess
 config.h
-config.h.in
 config.log
 config.status
-config.sub
-configure
-compile
-depcomp
 diff
-gtk-doc.make
-INSTALL
-install-sh
 libtool
-ltmain.sh
-missing
 stamp-h.in
 stamp-h1
-test-driver
 
 # top level stuff
 debian
@@ -178,7 +163,6 @@ win32/vs9/libnice.suo
 win32/vs9/libnice/
 glib/
 *.exe
-ar-lib
 
 # Code coverage
 lcov/
