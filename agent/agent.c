@@ -251,7 +251,7 @@ StunUsageIceCompatibility
 agent_to_ice_compatibility (NiceAgent *agent)
 {
   return agent->compatibility == NICE_COMPATIBILITY_GOOGLE ?
-      STUN_USAGE_ICE_COMPATIBILITY_GOOGLE :
+      STUN_USAGE_ICE_COMPATIBILITY_RFC5245:
       agent->compatibility == NICE_COMPATIBILITY_MSN ?
       STUN_USAGE_ICE_COMPATIBILITY_MSN :
       agent->compatibility == NICE_COMPATIBILITY_WLM2009 ?
@@ -268,7 +268,7 @@ StunUsageTurnCompatibility
 agent_to_turn_compatibility (NiceAgent *agent)
 {
   return agent->compatibility == NICE_COMPATIBILITY_GOOGLE ?
-      STUN_USAGE_TURN_COMPATIBILITY_GOOGLE :
+      STUN_USAGE_TURN_COMPATIBILITY_RFC5766:
       agent->compatibility == NICE_COMPATIBILITY_MSN ?
       STUN_USAGE_TURN_COMPATIBILITY_MSN :
       agent->compatibility == NICE_COMPATIBILITY_WLM2009 ?
@@ -284,7 +284,7 @@ NiceTurnSocketCompatibility
 agent_to_turn_socket_compatibility (NiceAgent *agent)
 {
   return agent->compatibility == NICE_COMPATIBILITY_GOOGLE ?
-      NICE_TURN_SOCKET_COMPATIBILITY_GOOGLE :
+      NICE_TURN_SOCKET_COMPATIBILITY_RFC5766 :
       agent->compatibility == NICE_COMPATIBILITY_MSN ?
       NICE_TURN_SOCKET_COMPATIBILITY_MSN :
       agent->compatibility == NICE_COMPATIBILITY_WLM2009 ?
@@ -1175,7 +1175,7 @@ nice_agent_init_stun_agent (NiceAgent *agent, StunAgent *stun_agent)
 {
   if (agent->compatibility == NICE_COMPATIBILITY_GOOGLE) {
     stun_agent_init (stun_agent, STUN_ALL_KNOWN_ATTRIBUTES,
-        STUN_COMPATIBILITY_RFC3489,
+        STUN_COMPATIBILITY_RFC5389,
         STUN_AGENT_USAGE_SHORT_TERM_CREDENTIALS |
         STUN_AGENT_USAGE_IGNORE_CREDENTIALS);
   } else if (agent->compatibility == NICE_COMPATIBILITY_MSN) {
@@ -2223,7 +2223,7 @@ priv_add_new_candidate_discovery_turn (NiceAgent *agent,
       g_slice_free (CandidateDiscovery, cdisco);
       return;
     }
-    if (agent->compatibility == NICE_COMPATIBILITY_GOOGLE) {
+    /*if (agent->compatibility == NICE_COMPATIBILITY_GOOGLE) {
       NiceAddress addr = nicesock->addr;
       NiceSocket *new_socket;
       nice_address_set_port (&addr, 0);
@@ -2234,7 +2234,7 @@ priv_add_new_candidate_discovery_turn (NiceAgent *agent,
         nice_component_attach_socket (component, new_socket);
         nicesock = new_socket;
       }
-    }
+      }*/
     cdisco->nicesock = nicesock;
   } else {
     NiceAddress proxy_server;
@@ -2337,9 +2337,10 @@ priv_add_new_candidate_discovery_turn (NiceAgent *agent,
 
   if (agent->compatibility == NICE_COMPATIBILITY_GOOGLE) {
     stun_agent_init (&cdisco->stun_agent, STUN_ALL_KNOWN_ATTRIBUTES,
-        STUN_COMPATIBILITY_RFC3489,
-        STUN_AGENT_USAGE_SHORT_TERM_CREDENTIALS |
-        STUN_AGENT_USAGE_IGNORE_CREDENTIALS);
+	STUN_COMPATIBILITY_RFC5389,
+        STUN_AGENT_USAGE_ADD_SOFTWARE |
+	STUN_AGENT_USAGE_LONG_TERM_CREDENTIALS |
+	STUN_AGENT_USAGE_USE_FINGERPRINT);
   } else if (agent->compatibility == NICE_COMPATIBILITY_MSN ||
       agent->compatibility == NICE_COMPATIBILITY_WLM2009) {
     stun_agent_init (&cdisco->stun_agent, STUN_ALL_KNOWN_ATTRIBUTES,
