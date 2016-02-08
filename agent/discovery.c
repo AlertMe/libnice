@@ -1133,7 +1133,7 @@ static gboolean priv_discovery_tick_unlocked (gpointer pointer)
 
               /* note: convert from milli to microseconds for g_time_val_add() */
               cand->next_tick = now;
-              g_time_val_add (&cand->next_tick, timeout * 1000);
+              g_time_val_add (&cand->next_tick, timeout * 1500);
 
               ++not_done; /* note: retry later */
               break;
